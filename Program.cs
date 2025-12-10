@@ -3,6 +3,10 @@ using TodoApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Railway için port ayarı
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 

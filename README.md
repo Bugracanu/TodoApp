@@ -95,4 +95,4 @@ Bu proje, ASP.NET Core MVC öğrenme sürecinin bir parçası olarak geliştiril
 
 ---
 
-⭐ Bu projeyi beğendiyseniz, yıldız vermeyi unutmayın!
+⭐ Bu projeyi beğendiyseniz, yıldız vermeyi unutmayın!!
