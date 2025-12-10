@@ -1,0 +1,75 @@
+@model IEnumerable<TodoApp.Models.TodoItem>
+
+    @{
+    ViewData["Title"] = "Ana Sayfa";
+    }
+
+    <div class="container mt-4">
+        <div class="text-center">
+            <h1>Todo Uygulamasına Hoş Geldiniz!</h1>
+            <p class="lead">Todo listenizi yönetmek için aşağıdaki butona tıklayın.</p>
+            <a asp-controller="Todo" asp-action="Index" class="btn btn-primary btn-lg">
+                Todo Listesine Git →
+            </a>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>📝 Todo Listesi</h1>
+            <a asp-action="Create" class="btn btn-primary">+ Yeni Todo</a>
+        </div>
+
+        @if (Model.Any())
+        {
+        <div class="row">
+            @foreach (var item in Model)
+            {
+            <div class="col-md-6 col-lg-4 mb-3">
+                <div class="card @(item.IsCompleted ? " border-success" : "" ) h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title @(item.IsCompleted ? " text-decoration-line-through text-muted" : ""
+                                )">
+                                @item.Title
+                            </h5>
+                            @{
+                            var badgeClass = item.Priority == "High" ? "danger" : item.Priority == "Medium" ? "warning"
+                            : "info";
+                            }
+                            <span class="badge bg-@badgeClass">
+                                @item.Priority
+                            </span>
+                        </div>
+                        <p class="card-text">@item.Description</p>
+                        <small class="text-muted">Oluşturulma: @item.CreatedAt.ToString("dd.MM.yyyy HH:mm")</small>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <div class="btn-group w-100" role="group">
+                            <form asp-action="ToggleComplete" method="post" class="d-inline">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <button type="submit" class="btn btn-sm @(item.IsCompleted ? " btn-warning"
+                                    : "btn-success" )">
+                                    @(item.IsCompleted ? "✓ Tamamlandı" : "Tamamla")
+                                </button>
+                            </form>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Düzenle</a>
+                            <form asp-action="Delete" method="post" class="d-inline"
+                                onsubmit="return confirm('Silmek istediğinize emin misiniz?');">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <button type="submit" class="btn btn-sm btn-danger">Sil</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+        }
+        else
+        {
+        <div class="alert alert-info">
+            <p>Henüz todo eklenmemiş. İlk todo'nu eklemek için "Yeni Todo" butonuna tıkla!</p>
+        </div>
+        }
+    </div>
